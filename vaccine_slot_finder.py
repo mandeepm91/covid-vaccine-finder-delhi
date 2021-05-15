@@ -5,7 +5,10 @@ import time
 import webbrowser
 from datetime import datetime
 
-url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByDistrict?district_id={district_id}&date=13-05-2021"
+# Update the process date here
+process_date = '15-05-2021'
+
+url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByDistrict?district_id={district_id}&date={process_date}"
 
 districts_map = {
     141: 'Central Delhi',
@@ -62,7 +65,7 @@ def print_centers_of_interest(centers):
 def get_centers_for_district(district_id, district_name):
     print('Fetching results for district {} -- {}'.format(district_name, current_time_string()))
     r = requests.get(
-        url.format(district_id=district_id),
+        url.format(district_id=district_id, process_date=process_date),
         headers=headers
     )
     result = json.loads(r.text)
@@ -82,6 +85,7 @@ if __name__ == "__main__":
                     exit()
                 elif len(centers_of_interest) > 0:
                     print("Less slots found                     ----------                              {}".format(len(centers_of_interest)))
+                    print_centers_of_interest(centers_of_interest)
                     print('\007')
                 else:
                     print("No slots found")
